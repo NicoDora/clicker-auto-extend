@@ -5,10 +5,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import time
 
-user_id = "" # 아이디 입력
-user_password = "" # 비밀번호 입력
+user_id = "nicodora" # 아이디 입력
+user_password = "password" # 비밀번호 입력
 
-my_seat = "" # 현재 내 좌석 번호 입력
+my_seat = "150" # 현재 내 좌석 번호 입력
 
 url = "https://seat.induk.ac.kr/clicker/UserSeat/" # 좌석 예약 페이지 주소
 
