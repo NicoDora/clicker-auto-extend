@@ -30,9 +30,11 @@
    ```
 
 4. 코드 내에 인덕대학교 포털시스템 로그인 정보를 입력합니다.
+
    ![code1](https://github.com/NicoDora/clicker-auto-extend/assets/76510679/b81070e2-a889-458e-b61e-ea5539812903)
 
 5. 현재 내가 이용중인 좌석의 번호를 입력합니다.
+
    ![code2](https://github.com/NicoDora/clicker-auto-extend/assets/76510679/eb74c705-3f49-4ded-b51c-c95d0841df50)
 
 6. 코드를 실행합니다.
