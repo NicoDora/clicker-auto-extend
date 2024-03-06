@@ -1,106 +1,77 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
-import time
+import requests
+import re
 
 user_id = "" # 아이디 입력
-user_password = "" # 비밀번호 입력
+user_pass = "" # 비밀번호 입력
 
-my_seat = "" # 현재 내 좌석 번호 입력
+action_code = "1" # 자리 선택: 0, 자리 이동: 1
 
-url = "https://seat.induk.ac.kr/clicker/UserSeat/" # 좌석 예약 페이지 주소
+seat_id = "" # 현재 내 좌석 아이디 or 원하는 좌석 아이디 입력
 
-def initialize_driver():
-  chrome_options = Options()
+seat_reservation_url = "https://seat.induk.ac.kr/Clicker/ReadingRoomAction" # 좌석 예약 페이지 주소
 
-  chrome_options.add_experimental_option("detach", True)
-  chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36")
+lib_first_floor_id = "20240130112852987" # 도서관 1층 아이디
 
-  driver = webdriver.Chrome(options=chrome_options)
-  driver.maximize_window()
+lib_url = f"https://seat.induk.ac.kr/Clicker/UserSeat/{ lib_first_floor_id }?DeviceName=normal"
 
-  return driver
-
-def navigate_to_page(driver, url):
-  driver.get(url)
-
-def clickable_seat(wait):
+def find_available_seat():
   try:
-    clickable_seat = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@title="배정가능"]')))
-    clickable_seat.click()
-  except:
-    print("No available seat")
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
+    chrome_options.add_argument("lang=ko_KR")
 
-def login(wait, id, password):
-  try:
-    id_element = wait.until(EC.element_to_be_clickable((By.ID, 'textUserId')))
-    id_element.send_keys(id)
+    driver = webdriver.Chrome(options=chrome_options)
 
-    password_element = wait.until(EC.element_to_be_clickable((By.ID, 'textUserPass')))
-    password_element.send_keys(password)
-  except:
-    print("login failed")
-
-def change_seat(wait):
-  try:
-    login_button = wait.until(EC.element_to_be_clickable((By.ID, 'buttonChangeSeat')))
-    login_button.click()
-  except:
-    print("change seat failed")
-
-def click_cancel(wait):
-  try:
-    cancel_button = wait.until(EC.element_to_be_clickable((By.ID, 'buttonCloseSeat')))
-    cancel_button.click()
-  except:
-    print("cancel failed")
-
-def select_my_seat(wait, seat_id):
-  try:
-    my_seat = wait.until(EC.element_to_be_clickable((By.XPATH, f'//span[@class="clicker_s_s_no" and text()="{ seat_id }"]')))
-    my_seat.click()
-  except:
-    print("select seat failed")
-
-def find_change_button(wait):
-  try:
-    return wait.until(EC.element_to_be_clickable((By.ID, 'buttonChangeSeat'))) 
-  except:
-    return False
-
-def main():
-  try:
-    driver = initialize_driver()
+    driver.get("https://seat.induk.ac.kr/Clicker/UserSeat/20240130112852987?DeviceName=normal")
 
     wait = WebDriverWait(driver, 10)
-    wait_short = WebDriverWait(driver, 1)
 
-    navigate_to_page(driver, url)
+    element = wait.until(EC.presence_of_element_located((By.XPATH, '//div[@id="clicker_div_guide_map"]//div[@title="배정가능"]'))).get_attribute('id')
 
-    clickable_seat(wait)
-    login(wait, user_id, user_password)
-    change_seat(wait)
-    click_cancel(wait)
+    id = re.search(r'\d+$', element).group()
 
-    select_my_seat(wait, my_seat)
-
-    if not find_change_button(wait_short):
-      click_cancel(wait)
-    
-    select_my_seat(wait, my_seat)
-    login(wait, user_id, user_password)
-    change_seat(wait)
-
-    click_cancel(wait)
-
-  except Exception as error:
-    print(error)
-
-  finally:
-    time.sleep(5)
     driver.quit()
 
+    return id
+
+  except:
+    return { "error": "find_available_seat error" }
+
+def request_seat(seat_id):
+  try:
+    response = requests.get(
+      seat_reservation_url, params = {
+        f"ActionCode": { action_code },
+          "SeatId": { seat_id },
+          "UserId": { user_id },
+          "UserPass": { user_pass },
+          "DeviceName": "desktop",
+          "Kiosk": "false",
+          "Guid": "yvjk25bqcbfzhpplohn0zkn0"
+        })
+    data = response.json()
+
+    return data['g_flag_update_excute_success']
+  
+  except:
+    return { "error": "request error" }
+
 if __name__ == "__main__":
-  main()
+  # 선택가능한 좌석 아이디 찾기
+  available_seat_id = find_available_seat()
+  # 좌석 예약 요청
+  request_seat(available_seat_id)
+  
+  # 원래 좌석으로 이동
+  result = request_seat(seat_id)
+  if result:
+    print("이동 성공")
+  else:
+    print("이동 실패")
