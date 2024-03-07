@@ -73,18 +73,25 @@ def request_seat(seat_id):
     return { "error": "request error" }
 
 if __name__ == "__main__":
-  # 선택가능한 좌석 아이디 찾기
-  my_seat_id, next_seat_id = find_available_seat()
-  if not my_seat_id and "error" in next_seat_id:
-    print(next_seat_id)
-    exit()
+  if action_code == '0':
+    result = request_seat(seat_id)
+    if result:
+      print("예약 성공")
+    else:
+      print("예약 실패")
+  elif action_code == '1':
+    # 선택가능한 좌석 아이디 찾기
+    my_seat_id, next_seat_id = find_available_seat()
+    if not my_seat_id and "error" in next_seat_id:
+      print(next_seat_id)
+      exit()
 
-  # 좌석 예약 요청
-  request_seat(next_seat_id)
-  
-  # 원래 좌석으로 이동
-  result = request_seat(my_seat_id)
-  if result:
-    print("이동 성공")
-  else:
-    print("이동 실패")
+    # 좌석 예약 요청
+    request_seat(next_seat_id)
+    
+    # 원래 좌석으로 이동
+    result = request_seat(my_seat_id)
+    if result:
+      print("이동 성공")
+    else:
+      print("이동 실패")
