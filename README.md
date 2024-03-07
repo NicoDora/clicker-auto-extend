@@ -14,12 +14,12 @@
 
 작동 원리는 다음과 같습니다.
 
-- 예약 페이지에 로그인을 하지 않은 상태로 접속하면, 자리이동이 가능합니다.
-- 자리이동을 하면 시간은 초기화되므로 무한으로 시간연장이 가능합니다.
+- http request를 통해 빠르게 남은 자리로 이동하고 다시 본인의 자리로 돌아옵니다.
+- 자리이동을 하면 시간은 초기화되고, 횟수 제한이 없어 무한으로 시간연장이 가능합니다.
 
 ## 사용방법
 
-1. 먼저 `main.py` 파일을 복사하여 본인의 로컬에 저장합니다.
+1. 먼저 `main.py` 파일을 복사하거나 git pull로 본인의 로컬에 저장합니다.
 
 2. 파이썬은 알아서 다운받으세요.
 
@@ -27,14 +27,20 @@
 
    ```bash
    pip install selenium
+   pip install requests
    ```
 
 4. 코드 내에 인덕대학교 포털시스템 로그인 정보를 입력합니다.
 
-   ![code1](https://github.com/NicoDora/clicker-auto-extend/assets/76510679/b81070e2-a889-458e-b61e-ea5539812903)
+   ![code](https://github.com/NicoDora/clicker-auto-extend/assets/76510679/977527bc-dde2-48e5-af64-e9dbc8087a26)
 
-5. 현재 내가 이용중인 좌석의 번호를 입력합니다.
+5. 자리를 예약하고 싶으면 0, 자리를 연장하고 싶으면 1을 입력합니다.
+   (action_code 값이 없으면 동작하지 않으니 주의하세요.)
 
-   ![code2](https://github.com/NicoDora/clicker-auto-extend/assets/76510679/eb74c705-3f49-4ded-b51c-c95d0841df50)
+   ![code3](https://github.com/NicoDora/clicker-auto-extend/assets/76510679/a2e803d2-b537-49a2-b6c6-d3195d9fd8c7)
 
-6. 코드를 실행합니다.
+6. 원하는 자리 번호나 현재 자신의 자리 번호를 입력합니다.
+
+   ![code2](https://github.com/NicoDora/clicker-auto-extend/assets/76510679/a5d6aaa6-f245-48ce-8bc9-b13b61a253bb)
+
+7. 코드를 실행하고 약 10초 내에 자리가 예약되거나 연장됩니다.
