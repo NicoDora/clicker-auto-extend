@@ -11,7 +11,7 @@ user_pass = "" # 비밀번호 입력
 
 action_code = "1" # 자리 선택: 0, 자리 이동: 1
 
-seat_id = "" # 현재 내 좌석 아이디 or 원하는 좌석 아이디 입력
+seat_id = "" # 현재 내 좌석 번호 or 원하는 좌석 번호 입력
 
 seat_reservation_url = "https://seat.induk.ac.kr/Clicker/ReadingRoomAction" # 좌석 예약 페이지 주소
 
@@ -29,20 +29,29 @@ def find_available_seat():
 
     driver = webdriver.Chrome(options=chrome_options)
 
-    driver.get("https://seat.induk.ac.kr/Clicker/UserSeat/20240130112852987?DeviceName=normal")
+    driver.get(lib_url)
 
     wait = WebDriverWait(driver, 10)
 
     element = wait.until(EC.presence_of_element_located((By.XPATH, '//div[@id="clicker_div_guide_map"]//div[@title="배정가능"]'))).get_attribute('id')
 
-    id = re.search(r'\d+$', element).group()
+    my_seat_number = wait.until(EC.element_to_be_clickable((By.XPATH, f'//span[@class="clicker_s_s_no" and text()="{ seat_id }"]')))
+
+    # 상위 div 찾기
+    parent_div = my_seat_number.find_element(By.XPATH, "./parent::div")
+
+    # 상위 div의 id 값 가져오기
+    my_seat_full_id = parent_div.get_attribute('id')
+
+    my_seat_id = re.search(r'\d+$', my_seat_full_id).group()
+    next_seat_id = re.search(r'\d+$', element).group()
 
     driver.quit()
 
-    return id
+    return my_seat_id, next_seat_id
 
-  except:
-    return { "error": "find_available_seat error" }
+  except Exception as error:
+    return False, { "error": error }
 
 def request_seat(seat_id):
   try:
@@ -65,12 +74,16 @@ def request_seat(seat_id):
 
 if __name__ == "__main__":
   # 선택가능한 좌석 아이디 찾기
-  available_seat_id = find_available_seat()
+  my_seat_id, next_seat_id = find_available_seat()
+  if not my_seat_id and "error" in next_seat_id:
+    print(next_seat_id)
+    exit()
+
   # 좌석 예약 요청
-  request_seat(available_seat_id)
+  request_seat(next_seat_id)
   
   # 원래 좌석으로 이동
-  result = request_seat(seat_id)
+  result = request_seat(my_seat_id)
   if result:
     print("이동 성공")
   else:
