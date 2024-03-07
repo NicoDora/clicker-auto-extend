@@ -19,7 +19,7 @@
 
 ### 인덕대학교 도서관 1층 좌석 배치도
 
-<img width="1428" alt="스크린샷 2024-03-07 오후 9 48 58" src="https://github.com/NicoDora/clicker-auto-extend/assets/76510679/9fb2b67e-b3db-4934-a1ec-e87887555871">
+<img width="1428" alt="스크린샷 2024-03-07 오후 10 12 39" src="https://github.com/NicoDora/clicker-auto-extend/assets/76510679/2c34d22b-e51f-404b-979d-6d773a1eba11">
 
 ## 사용방법
 
