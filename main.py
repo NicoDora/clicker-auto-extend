@@ -20,29 +20,6 @@ lib_url = f"https://seat.induk.ac.kr/Clicker/UserSeat/{ lib_first_floor_id }?Dev
 
 seat_number_json_path = "seat_number.json"
 
-def transformation_seat_number_to_seat_id(seat_number):
-  try:
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
-    chrome_options.add_argument("lang=ko_KR")
-
-    driver = webdriver.Chrome(options=chrome_options)
-
-    driver.get(lib_url)
-
-    wait = WebDriverWait(driver, 10)
-
-    seat_number_locate = wait.until(EC.presence_of_element_located((By.XPATH, f'//span[@class="clicker_s_s_no" and text()="{ seat_number }"]')))
-    parent_div = seat_number_locate.find_element(By.XPATH, "./parent::div")
-    seat_full_id = parent_div.get_attribute('id')
-    seat_id = re.search(r'\d+$', seat_full_id).group()
-    return seat_id
-
-  except Exception as error:
-    return { "error": error }
-
 def find_available_seat():
   try:
     chrome_options = Options()
