@@ -51,8 +51,8 @@ def request_seat(seat_id):
 
     return data['g_flag_update_excute_success']
   
-  except:
-    return { "error": "request error" }
+  except Exception as error:
+    return { "error": error }
 
 if __name__ == "__main__":
   # 좌석 번호를 좌석 고유 아이디로 변환
