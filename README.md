@@ -1,50 +1,73 @@
-# clicker-auto-extend
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+</p>
 
-클리커를 사용하는 도서관에서 무한으로 시간연장 해주는 프로그램
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-<img width="230" alt="스크린샷 2024-03-04 오후 10 14 44" src="https://github.com/NicoDora/clicker-auto-extend/assets/76510679/12172f43-114c-49f8-9545-b6db2d6c4336">
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
----
+## Description
 
-### 들어가기 전에...
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-본 프로그램은 클리커를 사용하는 도서관에서 무한으로 시간연장 해주는 프로그램입니다.
+## Installation
 
-인덕대학교 도서관 좌석관리시스템 페이지를 기반으로 작성되어 타 학교나 기관 페이지에서는 작동하지 않을 수 있습니다.
+```bash
+$ npm install
+```
 
-작동 원리는 다음과 같습니다.
+## Running the app
 
-- http request를 통해 빠르게 남은 자리로 이동하고 다시 본인의 자리로 돌아옵니다.
-- 자리 이동을 하면 시간은 초기화되고, 자리 이동에는 횟수 제한이 없어 무한으로 시간연장이 가능합니다.
+```bash
+# development
+$ npm run start
 
-### 인덕대학교 도서관 1층 좌석 배치도
+# watch mode
+$ npm run start:dev
 
-<img width="1428" alt="스크린샷 2024-03-07 오후 10 12 39" src="https://github.com/NicoDora/clicker-auto-extend/assets/76510679/2c34d22b-e51f-404b-979d-6d773a1eba11">
+# production mode
+$ npm run start:prod
+```
 
-## 사용방법
+## Test
 
-1. 먼저 `main.py` 파일을 복사하거나 git pull 명령어를 통해 본인의 로컬에 저장합니다.
+```bash
+# unit tests
+$ npm run test
 
-2. 파이썬은 알아서 다운받으세요.
+# e2e tests
+$ npm run test:e2e
 
-3. 필수 라이브러리를 설치합니다.
+# test coverage
+$ npm run test:cov
+```
 
-   ```bash
-   pip install selenium
-   pip install requests
-   ```
+## Support
 
-4. 코드 내에 인덕대학교 포털시스템 로그인 정보를 입력합니다.
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-   ![code](https://github.com/NicoDora/clicker-auto-extend/assets/76510679/977527bc-dde2-48e5-af64-e9dbc8087a26)
+## Stay in touch
 
-5. 자리를 예약하고 싶으면 0, 자리를 연장하고 싶으면 1을 입력합니다.
-   (action_code 값이 없으면 동작하지 않으니 주의하세요.)
+- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-   ![code3](https://github.com/NicoDora/clicker-auto-extend/assets/76510679/a2e803d2-b537-49a2-b6c6-d3195d9fd8c7)
+## License
 
-6. 원하는 자리 번호나 현재 자신의 자리 번호를 입력합니다.
-
-   ![code2](https://github.com/NicoDora/clicker-auto-extend/assets/76510679/a5d6aaa6-f245-48ce-8bc9-b13b61a253bb)
-
-7. 코드를 실행하고 약 10초 내에 자리가 예약되거나 연장됩니다.
+Nest is [MIT licensed](LICENSE).
