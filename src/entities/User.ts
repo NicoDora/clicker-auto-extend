@@ -15,6 +15,8 @@ export class User {
     name: 'std_num',
     comment: '학번',
     length: 100,
+    nullable: false,
+    unique: true,
   })
   stdNum: string;
 
@@ -23,6 +25,7 @@ export class User {
     name: 'password',
     comment: '비밀번호',
     length: 100,
+    nullable: false,
   })
   password: string;
 
@@ -31,6 +34,7 @@ export class User {
     name: 'created_at',
     comment: '생성시간',
     default: () => 'CURRENT_TIMESTAMP',
+    nullable: false,
   })
   createdAt: Date;
 
@@ -38,7 +42,7 @@ export class User {
     type: 'timestamp',
     name: 'deleted_at',
     comment: '삭제시간',
-    default: () => 'CURRENT_TIMESTAMP',
+    nullable: true,
   })
-  deletedAt: Date;
+  deletedAt: Date | null;
 }
