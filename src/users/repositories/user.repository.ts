@@ -1,24 +1,20 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User } from 'src/entities/User';
-import { EntityManager } from 'typeorm';
-import { QueryFailedError } from 'typeorm';
+import { EntityManager, FindOneOptions } from 'typeorm';
 
 @Injectable()
 export class UserRepository {
   constructor(private readonly entityManager: EntityManager) {}
 
-  async createUser(stdNum: string, password: string) {
-    try {
-      return await this.entityManager.save(User, { stdNum, password });
-    } catch (error) {
-      if (
-        error instanceof QueryFailedError &&
-        error.message.includes('ER_DUP_ENTRY')
-      ) {
-        throw new HttpException('User already exists', HttpStatus.CONFLICT);
-      } else {
-        console.error(error);
-      }
-    }
+  createUser(stdNum: string, password: string) {
+    return this.entityManager.save(User, { stdNum, password });
+  }
+
+  findUser(options: FindOneOptions<User>) {
+    return this.entityManager.findOne(User, options);
+  }
+
+  updateUser(stdNum: string, password: string) {
+    return this.entityManager.update(User, { stdNum }, { password });
   }
 }

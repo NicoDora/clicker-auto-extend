@@ -5,7 +5,13 @@ import { UserService } from 'src/users/services/user.service';
 export class AuthService {
   constructor(private readonly userService: UserService) {}
 
-  login(stdNum: string, password: string) {
-    return this.userService.createUser(stdNum, password);
+  async login(stdNum: string, password: string) {
+    const existingUser = await this.userService.findUser({ where: { stdNum } });
+
+    if (existingUser) {
+      return this.userService.updateUser(stdNum, password);
+    } else {
+      return this.userService.createUser(stdNum, password);
+    }
   }
 }
